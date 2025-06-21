@@ -21,12 +21,12 @@ app.use(session({
 // Routes
 const walkRoutes = require('./routes/walkRoutes');
 const userRoutes = require('./routes/userRoutes');
-//added for q17
+//question 17
 const dogRoutes = require('./routes/dogRoutes');
 
 app.use('/api/walks', walkRoutes);
 app.use('/api/users', userRoutes);
-//added for q17
+//added for question 17
 app.use('/api/dogs', dogRoutes);
 
 // Export the app instead of listening here
