@@ -33,7 +33,28 @@
       <br>
       <button type="submit" class="btn btn-primary">Log In</button>
     </form>
-
+    <br><br>
+<h2>All Registered Dogs</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Dog ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Size</th>
+          <th scope="col">Owner ID</th>
+          <th scope="col">Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="dog in dogs">
+          <th scope="row">{{ dog.dog_id }}</th>
+          <td>{{ dog.dog_name }} </td>
+          <td>{{ dog.size}}</td>
+          <td>{{ dog.owner_id}}</td>
+          <td><img :src="dog.image" alt="Image of a Dog" style="max-height: 7vh"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 
