@@ -53,9 +53,9 @@ var db;
         INSERT INTO Dogs (name, size) VALUES
         (  'Max',  'medium'),
         (  'Bella',  'small'),
-        (  'Toro',  'large'),
-        (  'Min',  'small'),
-        (  'Noel',  'large')
+        (  'Rocky',  'large'),
+        (  'Charlie',  'medium'),
+        (  'Luna',  'large')
       `);
     }
   } catch (err) {
