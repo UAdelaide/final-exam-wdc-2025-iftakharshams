@@ -38,21 +38,27 @@
 
   <!-- Log in for Owner and Walker -->
   <script>
-    const { createApp } = Vue;
+     const { createApp } = Vue;
     createApp({
       data() {
         return {
-          dogs: [],
-          message: 'Welcome to the Dog Walking Service!'
+          message: 'Welcome to the Dog Walking Service!',
+          dogs: []
         };
       },
-      async created() {
+      async mounted() {
         try {
           const res = await fetch('/api/dogs');
-          const data = await res.json();
-          this.dogs = data;
+          const doglist = await res.json();
+
+          for(const dog of doglist) {
+            const dogImage = await fetch('https://dog.ceo/api/breeds/image/random');
+            const dogData = await dogImage.json();
+            dog.photo = dogData.message;
+          }
+          this.dogs = doglist;
         } catch (err) {
-          console.error('Failed to load dogs:', err);
+          console.error('Failed to fetch dogs:', err);
         }
       }
     }).mount('#app');
