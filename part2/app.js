@@ -1,9 +1,8 @@
 const express = require('express');
 const path = require('path');
 require('dotenv').config();
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-const db = require('./models/db.js');
+//q13 added sessions
+const session = require('express-session');
 
 const app = express();
 
@@ -11,30 +10,24 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
+//q13 added sessions
+app.use(session({
+  name: 'dogwalk.sid',
+  secret: 'secretKey123',
+  resave: false,
+  saveUninitialized: false
+}));
+
 // Routes
 const walkRoutes = require('./routes/walkRoutes');
 const userRoutes = require('./routes/userRoutes');
+//added for q17
+const dogRoutes = require('./routes/dogRoutes');
 
 app.use('/api/walks', walkRoutes);
 app.use('/api/users', userRoutes);
-
-// GET all dog data
-app.get('/api/dogs', async function(req, res) {
-  try {
-    const [rows] = await db.query(
-      `SELECT
-        dog_id,
-        name AS dog_name,
-        size,
-        owner_id
-      FROM Dogs`
-    );
-    return res.status(200).json(rows);
-  } catch(err) {
-    console.error("Error getting dogs data");
-    return res.sendStatus(500);
-  }
-});
+//added for q17
+app.use('/api/dogs', dogRoutes);
 
 // Export the app instead of listening here
 module.exports = app;
