@@ -51,7 +51,9 @@ let db;
       VALUES
       ('alice123', 'alice@example.com', 'hashed123','owner'),
       ('bobwalker', 'bob@example.com', 'hashed456','walker'),
-      ('carol123', 'carol@example.com', 'hashed789','owner')
+      ('carol123', 'carol@example.com', 'hashed789','owner'),
+      ('davewalker', 'dave@example.com',   'hashed000',  'walker'),
+      ('emilyowner', 'emily@example.com',  'hashed111',  'owner');
     `);
 
     await db.execute(`
