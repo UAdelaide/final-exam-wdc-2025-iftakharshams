@@ -1,12 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Express</title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Dog Walk Service</title>
 </head>
+<body id="app">
+    <div v-if="!isOpen">
+        <br><br>
+        <div v-if="firstButton">
+            <div >Click on button below to open</div>
+            <br>
+            <button type="button" @click="open2rdButton">Open</button>
+            <br>
+            <h1>45</h1>
+        </div>
+        <div v-if="secondButton">
+            <div>Enter number you have seen</div>
+            <br>
+            <input
+                type="text"
+                v-model="enNum"
+                placeholder="Enter number"
+                required>
+            <br>
+            <button type="button" @click="openPage">Open again</button>
+            <h4 v-if="message" style="color: red">{{ message }}</h4>
+        </div>
 
-<body>
-    <h1>Express</h1>
-    <p>Welcome to Express</p>
+    </div>
+    <div v-if="isOpen">
+        <h1>Dog of the Day</h1>
+        <img :src="imagePath" style="width: 50%;">
+    </div>
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+        data() {
+            return {
+                isOpen: false,
+                firstButton: true,
+                secondButton: false,
+                imagePath: '',
+                enNum: null,
+                message:''
+            };
+        },
+        async mounted() {
+            try {
+                const res = await fetch('https://dog.ceo/api/breeds/image/random');
+                const dogFile = await res.json();
+                if (dogFile.status === "success") {
+                    this.imagePath = dogFile.message;
+                }
+            } catch (err) {
+                console.err(err.message);
+            }
+        },
+        methods: {
+            open2rdButton() {
+                this.firstButton = false;
+                this.secondButton = true;
+            },
+            openPage() {
+                this.message = ''
+                if(this.enNum === "45") {
+                    this.secondButton = false;
+                    this.isOpen = true;
+                    this.enNum = null;
+                } else {
+                    this.message = 'Wrong number'
+                }
+
+            }
+        }
+        })
+        .mount('#app');
+    </script>
 </body>
 </html>
