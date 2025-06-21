@@ -50,7 +50,65 @@
           dogs: null
         };
       },
-      
+       async mounted() {
+        const response = await fetch('/api/users/me');
+        const data = await response.json();
+        if (data.username) {
+          if (data.role === 'owner') {
+              window.location.href = '/owner-dashboard.html';
+          } else if (data.role === 'walker') {
+            window.location.href = '/walker-dashboard.html';
+          }
+        }
+
+        const res = await fetch('/api/dogs');
+        const dogs = await res.json();
+
+        if (!dogs) return;
+
+        // Fetch one path at a time because limit of api is 50 image, if we have more than 50 dogs we cannot fetch all of them at a time
+        for (const dog of dogs) {
+          const imageRes = await fetch('https://dog.ceo/api/breeds/image/random');
+          const imageData = await imageRes.json();
+
+          if (imageData.status === 'success') {
+            dog.image = imageData.message;
+          } else {
+            console.log("cannot load iamge");
+          }
+        }
+        this.dogs = dogs;
+      },
+      methods: {
+        async login() {
+          this.errorMessage = '';
+          try {
+            const res = await fetch('/api/users/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: this.username,
+                password: this.password
+              })
+            });
+
+            const data = await res.json()
+
+            if (!res.ok) {
+              throw new Error(data.error || 'Login failed');
+            }
+
+            if (data.user.role === 'owner') {
+              window.location.href = '/owner-dashboard.html';
+            } else if (data.user.role === 'walker') {
+              window.location.href = '/walker-dashboard.html';
+            }
+          } catch(err) {
+            this.errorMessage = err.message;
+            console.error('Login error', err);
+          }
+        }
+      }
     }).mount('#app');
   </script>
 
