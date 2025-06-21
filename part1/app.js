@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mysql = require('mysql2/promise');
 
 /* var indexRouter = require('./routes/index'); */
 /* var usersRouter = require('./routes/users'); */
@@ -17,8 +18,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 /* app.use('/', indexRouter); */
 /* app.use('/users', usersRouter); */
 
-const express = require('express');
-const mysql   = require('mysql2/promise');
 
 const PORT = process.env.PORT || 8080;
 
