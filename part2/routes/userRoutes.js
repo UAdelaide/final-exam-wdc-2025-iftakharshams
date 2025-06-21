@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-//q15
+//question 15
 router.get('/dogs', async(req,res) => {
   const {owner_id} = req.query;
 
