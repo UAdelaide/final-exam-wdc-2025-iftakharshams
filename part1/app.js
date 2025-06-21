@@ -63,7 +63,7 @@ let db;
       ((SElECT user_id FROM Users WHERE email = 'carol@example.com' LIMIT 1), 'Bella', 'small'),
       ((SElECT user_id FROM Users WHERE email = 'alice@example.com' LIMIT 1), 'Den', 'large'),
       ((SElECT user_id FROM Users WHERE email = 'carol@example.com' LIMIT 1), 'PhuLoc', 'medium'),
-      ((SElECT user_id FROM Users WHERE email = 'alice@example.com' LIMIT 1), 'LuongPhuoc', 'small')
+      ((SElECT user_id FROM Users WHERE email = 'alice@example.com' LIMIT 1), 'LuongPhuoc', 'large')
     `);
 
     await db.execute(`
