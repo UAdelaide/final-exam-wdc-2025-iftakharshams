@@ -72,7 +72,7 @@
 
         async function applyToWalk(requestId) {
           try {
-            //added for q16 calls getcurrentuser fucntion
+            //for question 16 calls getcurrentuser fucntion
             const currentUser = await getCurrentUser();
             //ensure a user is identified
             if(!currentUser) {
@@ -82,7 +82,7 @@
             const res = await fetch(`/api/walks/${requestId}/apply`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              //changed fro q16
+              //for question 16
               body: JSON.stringify({ walker_id: currentUser.user_id })
             });
             const result = await res.json();
