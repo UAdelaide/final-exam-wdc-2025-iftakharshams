@@ -9,8 +9,10 @@
 </head>
 <body class="bg-light">
   <div id="app" class="container py-4">
-    <h1 class="mb-4 text-success">Walker Dashboard</h1>
-
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="mb-0 text-success">Walker Dashboard</h1>
+      <button type="button" onclick="logout()" class="logoutBtn btn btn-danger logoutBtn">Logout</button>
+    </div>
     <!-- Alert messages -->
     <div v-if="message" class="alert alert-info">{{ message }}</div>
     <div v-if="error" class="alert alert-danger">{{ error }}</div>
@@ -55,12 +57,33 @@
           }
         }
 
+        //added for q16
+        async function getCurrentUser() {
+          try {
+            const res = await fetch('/api/users/me');
+            if (!res.ok) throw new Error('Failed to load user');
+            const user = await res.json();
+            return user;
+          } catch (err) {
+            console.error('Failed to load user: ', err);
+            return null;
+          }
+        }
+
         async function applyToWalk(requestId) {
           try {
+            //added for q16 calls getcurrentuser fucntion
+            const currentUser = await getCurrentUser();
+            //ensure a user is identified
+            if(!currentUser) {
+              throw new Error('User not logged in!');
+            }
+
             const res = await fetch(`/api/walks/${requestId}/apply`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ walker_id: user })
+              //changed fro q16
+              body: JSON.stringify({ walker_id: currentUser.user_id })
             });
             const result = await res.json();
 
@@ -89,5 +112,6 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./javascripts/page.js"></script>
 </body>
 </html>
