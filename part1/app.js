@@ -29,7 +29,7 @@ let db;
       // host: 'localhost',
       socketPath: '/var/run/mysqld/mysqld.sock',
       user: 'root',
-      password: 'root' // Set your MySQL root password
+      password: 'root'
     });
 
     // Create the database if it doesn't exist
