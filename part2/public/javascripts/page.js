@@ -175,10 +175,10 @@ function downvote(index) {
 
 
 function login(){
-
+    //changed to user instead of email
     let user = {
-        user: document.getElementById('username').value,
-        pass: document.getElementById('password').value
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
     };
 
     // Create AJAX Request
@@ -187,7 +187,17 @@ function login(){
     // Define function to run on response
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            alert("Welcome "+this.responseText);
+            //changed for better handling
+            const data = JSON.parse(this.responseText);
+            alert("Welcome " + data.user.username);
+
+            //added so then redirects user depending on what role they are
+            if(data.user.role === 'owner') {
+                window.location.href = 'owner-dashboard.html';
+            } else if (data.user.role === 'walker') {
+                window.location.href = 'walker-dashboard.html';
+            }
+
         } else if (this.readyState == 4 && this.status >= 400) {
             alert("Login failed");
         }
@@ -195,10 +205,10 @@ function login(){
 
     // Open connection to server & send the post data using a POST request
     // We will cover POST requests in more detail in week 8
-    xmlhttp.open("POST", "/users/login", true);
+    //changed the route it posts too
+    xmlhttp.open("POST", "/api/users/login", true);
     xmlhttp.setRequestHeader("Content-type", "application/json");
     xmlhttp.send(JSON.stringify(user));
-
 }
 
 function logout(){
@@ -206,8 +216,20 @@ function logout(){
     // Create AJAX Request
     var xmlhttp = new XMLHttpRequest();
 
+    //added for question 14 to redirect logout
+    xmlhttp.onreadystatechange = function() {
+        if(this.readyState === 4) {
+            if(this.status === 200) {
+                window.location.href ='index.html';
+            } else {
+                alert('failed to logout!');
+            }
+        }
+    };
+
     // Open connection to server & send the post data using a POST request
-    xmlhttp.open("POST", "/users/logout", true);
+    //change route
+    xmlhttp.open("POST", "/api/users/logout", true);
     xmlhttp.send();
 
 }
