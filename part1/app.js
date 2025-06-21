@@ -71,9 +71,9 @@ let db;
       VALUES
       ((SELECT dog_id FROM Dogs WHERE name = 'Max' LIMIT 1), '2025-06-10 08:00:00', 30, 'Parklands', 'open'),
       ((SELECT dog_id FROM Dogs WHERE name = 'Bella' LIMIT 1), '2025-06-10 09:30:00', 45, 'Beachside Ave', 'accepted'),
-      ((SELECT dog_id FROM Dogs WHERE name = 'Rocky' LIMIT 1), '2025-06-11 10:00:00', 60, 'Moon', 'completed'),
-      ((SELECT dog_id FROM Dogs WHERE name = 'Charlie' LIMIT 1), '2025-06-12 07:30:00', 30, 'Renown Park', 'completed'),
-      ((SELECT dog_id FROM Dogs WHERE name = 'Luna' LIMIT 1), '2025-06-12 18:00:00', 45, 'Fuji', 'open')
+      ((SELECT dog_id FROM Dogs WHERE name = 'Rocky' LIMIT 1), '2025-06-11 10:00:00', 60, 'Riverbank Rd', 'completed'),
+      ((SELECT dog_id FROM Dogs WHERE name = 'Charlie' LIMIT 1), '2025-06-12 07:30:00', 30, 'Central Park', 'completed'),
+      ((SELECT dog_id FROM Dogs WHERE name = 'Luna' LIMIT 1), '2025-06-12 18:00:00', 45, 'Sunset Trail', 'open')
     `);
 
     await db.execute(`
