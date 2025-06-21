@@ -28,8 +28,8 @@ const PORT    = process.env.PORT || 8080;
 /* ---------- 1.  Database pool ---------- */
 const pool = mysql.createPool({
   host:     'localhost',
-  user:     'root',          // change if needed
-  password: 'password',      // change if needed
+  user:     'root', // change if needed
+  password: 'password', // change if needed
   database: 'DogWalkService',
   waitForConnections: true,
   connectionLimit: 10
