@@ -11,80 +11,102 @@
 
   <div id="app" class="container py-5">
     <h1 class="mb-4 text-primary">{{ message }}</h1>
-
     <p class="lead">Connect with trusted walkers for your beloved dog!</p>
-    <!--
+
+    <form id="loginForm" class="mb-4" @submit.prevent="handleLogin">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" v-model="username" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" v-model="password" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
     <a href="owner-dashboard.html" class="btn btn-outline-primary me-2">Owner Dashboard</a>
     <a href="walker-dashboard.html" class="btn btn-outline-success">Walker Dashboard</a>
-    -->
 
-    <form onsubmit="login(); return false;" class="loginForm">
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" class="form-control" id="username" name="Username" placeholder="Username" required>
-      </div>
-      <br>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" id="password" name="Password" placeholder="Passoword" required>
-      </div>
-      <br>
-      <button type="submit" class="btn btn-primary">Log in</button>
-    </form>
-    <br><br>
-     <!-- added table of dogs for question 17 -->
-    <div class="registeredDogs">
-      <h2>All Registered Dogs</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Dog ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Size</th>
-            <th scope="col">Owner ID</th>
-            <th scope="col">Photo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="dog in dogs" :key="dog.dog_id">
-            <td>{{ dog.dog_id }}</td>
-            <td>{{ dog.name }}</td>
-            <td>{{ dog.size }}</td>
-            <td>{{ dog.owner_id }}</td>
-            <td>
-              <img :src="dog.photo" alt="Dog photo" class="DTphoto" style="width:150px">
-            </td>
-          </tr>
-        </tbody>
-      </table>
-  </div>
+<!-- Table of Dogs -->
+<h2 class="mt-4">Available Dogs</h2>
+<table class="table table-striped">
+  <thead>
+   <tr>
+    <th>Photo</th>
+    <th>Name</th>
+    <th>Size</th>
+    <th>Owner</th>
+   </tr>
+  </thead>
+  <tbody>
+    <tr v-for="dog in dogs" :key="dog.dog_id">
+      <td><img src="default-dog-photo.jpg" v-if="!dog.photo" :src="dog.photo" alt="Dog photo" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
+      <td>{{ dog.name }}</td>
+      <td>{{ dog.size }}</td>
+      <td>{{ dog.owner_name }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
-
-  <!-- Log in for Owner and Walker -->
   <script>
-     const { createApp } = Vue;
+    const { createApp } = Vue;
     createApp({
       data() {
         return {
           message: 'Welcome to the Dog Walking Service!',
-          dogs: []
+          username: '',
+          password: ''
         };
       },
-      async mounted() {
-        try {
-          const res = await fetch('/api/dogs');
-          const doglist = await res.json();
-
-          for(const dog of doglist) {
-            const dogImage = await fetch('https://dog.ceo/api/breeds/image/random');
-            const dogData = await dogImage.json();
-            dog.photo = dogData.message;
+    methods: {
+      async handleLogin() {
+          try {
+            const response = await fetch('/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ username: this.username, password: this.password })
+            });
+            const result = await response.json();
+            if (result.success) {
+              if (result.role === 'owner') {
+                window.location.href = 'owner-dashboard.html';
+              } else if (result.role === 'walker') {
+                window.location.href = 'walker-dashboard.html';
+              }
+            } else {
+              alert('Invalid credentials. Please try again.');
+            }
+          } catch (error) {
+            console.error('Login error:', error);
+            alert('An error occurred. Please try again later.');
           }
-          this.dogs = doglist;
-        } catch (err) {
-          console.error('Failed to fetch dogs:', err);
+        },
+      async loadDogs() {
+          try {
+            const res = await fetch('/api/dogs');
+            if (!res.ok) throw new Error('Failed to fetch dogs');
+            const dogData = await res.json();
+
+            // Fetch random photos for each dog
+            const dogPromises = dogData.map(async (dog) => {
+              const photoRes = await fetch('https://dog.ceo/api/breeds/image/random');
+              const photoData = await photoRes.json();
+              return { ...dog, photo: photoData.message };
+            });
+
+            this.dogs = await Promise.all(dogPromises);
+          } catch (err) {
+            console.error('Error loading dogs:', err);
+          }
         }
-      }
+      },
+      mounted() {
+        this.loadDogs();
+      },
     }).mount('#app');
   </script>
 
