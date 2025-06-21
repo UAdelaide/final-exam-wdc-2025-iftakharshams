@@ -77,13 +77,6 @@ let db;
     `);
 
     await db.execute(`
-      INSERT INTO Users (username, email, password_hash, role)
-      VALUES
-        ('noratingwalker', 'no@ratings.com', 'pw1', 'walker'),
-        ('nowalkswalker', 'no@walks.com', 'pw2', 'walker')
-    `);
-
-    await db.execute(`
       INSERT INTO WalkApplications (request_id, walker_id, status)
       VALUES
         (3, 2, 'accepted'),
