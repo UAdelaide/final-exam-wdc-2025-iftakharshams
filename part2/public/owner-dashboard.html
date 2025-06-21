@@ -99,7 +99,7 @@
           }
         }
 
-        //added for q15
+        //for q15
         async function loadDogs() {
           try{
             const res = await fetch('/api/users/me');
@@ -140,7 +140,7 @@
 
         onMounted(() => {
           loadWalks();
-          //for q15
+          //for question 15
           loadDogs();
         });
 
@@ -149,7 +149,7 @@
           walks,
           message,
           error,
-          //added for q15
+          //for question 15
           dogs,
           submitWalkRequest
         };
