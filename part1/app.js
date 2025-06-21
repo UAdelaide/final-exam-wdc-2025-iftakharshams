@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 8080;
 
 /* ------ DB connection settings (override with env vars) ------ */
 const pool = mysql.createPool({
-  host:     process.env.DB_HOST     || 'localhost',
+  host: 'localhost',
   user:     process.env.DB_USER     || 'root',
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_NAME     || 'DogWalkService',
