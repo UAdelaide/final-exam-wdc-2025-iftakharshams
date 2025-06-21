@@ -131,7 +131,7 @@ app.get('/api/walkers/summary', async (_req, res) => {
 
 /* ----------  START ---------- */
 (async () => {
-  await seed();                    // put demo data in place
+  await seed(); // put demo data in place
   app.listen(PORT, () =>
     console.log(`🚀  API running on http://localhost:${PORT}`)
   );
