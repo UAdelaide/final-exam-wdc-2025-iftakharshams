@@ -10,7 +10,7 @@ CREATE TABLE Users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Dogs ( --sadjhasd
+CREATE TABLE Dogs (
     dog_id INT AUTO_INCREMENT PRIMARY KEY,
     owner_id INT NOT NULL,
     name VARCHAR(50) NOT NULL,
