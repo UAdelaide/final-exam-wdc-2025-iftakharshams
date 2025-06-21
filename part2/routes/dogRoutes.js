@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../models/db'); // adjust if needed
+const db = require('../models/db');
 
-// GET /api/dogs - return ALL dogs
-router.get('/', async (req, res) => {
+router.get('/', async (req,res) => {
   try {
-    const [dogs] = await db.execute('SELECT * FROM Dogs');
+    const [dogs] = await db.query('SELECT * FROM Dogs');
     res.json(dogs);
   } catch (err) {
-    console.error('SQL Error:', err);
-    res.status(500).json({ error: 'Failed to fetch dogs' });
+    console.error('Error fetching dogs for route /api/dogs:', err);
+    res.status(500).json({error: 'Failed to fetch dogs through /api/dogs route'});
   }
 });
 
