@@ -87,7 +87,7 @@
         const walks = ref([]);
         const message = ref('');
         const error = ref('');
-        //added for q15
+        //for question 15
         const dogs = ref([]);
 
         async function loadWalks() {
@@ -99,7 +99,7 @@
           }
         }
 
-        //for q15
+        //for question 15
         async function loadDogs() {
           try{
             const res = await fetch('/api/users/me');
