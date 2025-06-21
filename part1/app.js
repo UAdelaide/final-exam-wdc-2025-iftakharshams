@@ -17,19 +17,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 /* app.use('/', indexRouter); */
 /* app.use('/users', usersRouter); */
 
-/**
- * Dog-walking exam – minimal Express API (Question 5)
- * ---------------------------------------------------
- *   • Seeds demo data on start-up (safe to run repeatedly)
- *   • Provides three JSON endpoints:
- *       GET /api/dogs
- *       GET /api/walkrequests/open
- *       GET /api/walkers/summary
- *   • Run with `npm install && npm start`
- *   • Assumes the DogWalkService schema in dogwalks.sql
- *     is already loaded in MySQL.
- */
-
 const express = require('express');
 const mysql   = require('mysql2/promise');
 
